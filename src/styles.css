@@ -1,0 +1,41 @@
+body {
+  font-family: sans-serif;
+  text-align: left;
+  font-size: 18px;
+}
+header {
+  display: flex;
+  gap: 1rem;
+  width: 100vw;
+}
+fieldset {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+}
+input {
+  padding: 0.25rem;
+  font-size: 1rem;
+}
+button {
+  cursor: pointer;
+}
+.login fieldset {
+  padding: 1rem;
+  max-width: 24rem;
+}
+.login button {
+  font-size: 1rem;
+  margin-top: 1rem;
+}
+.errorMessage {
+  color: red;
+}
+pre {
+  max-width: 100vw;
+  white-space: pre-wrap;
+}
+.flexRight {
+  margin-left: auto;
+  padding-right: 1rem;
+}
