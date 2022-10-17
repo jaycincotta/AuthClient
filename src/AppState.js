@@ -86,6 +86,19 @@ export default function AppState({ children }) {
       navigate(url)
     }
 
+    const fetchJson = (url, options) => {
+      return Fetch(url, options, token)
+      .then(res => res.json())
+      .catch(e => {
+          if (e.statusCode === 403 && authenticate) {
+              authenticate()
+          } else {
+              console.log("ERROR", e.statusCode, e.message)
+              throw e
+          }
+      })
+    }
+
   useEffect(() => {
     // Ignore implicit login when token already defined
     if (token) {
@@ -103,7 +116,7 @@ export default function AppState({ children }) {
         email: claims ? claims.UserName : "",
         login: login,
         logout: logout,
-        authenticate: authenticate
+        fetchJson: fetchJson
       }}
     >
       {children}

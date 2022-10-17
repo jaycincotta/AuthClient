@@ -1,16 +1,15 @@
 import React, { useState, useContext, useEffect } from "react"
 import { AppContext } from "../AppContext"
 import AppSettings from "../AppSettings"
-import FetchSecure from "../functions/FetchSecure"
 import Data from "../components/Data";
 
 export default function Protected() {
-    const { token, authenticate } = useContext(AppContext)
+    const { fetchJson } = useContext(AppContext)
     const [part, setPart] = useState(null)
     const [error, setError] = useState(null)
 
     useEffect(() => {
-        FetchSecure(AppSettings.Urls.Protected, null, token, authenticate)
+        fetchJson(AppSettings.Urls.Protected, null)
             .then(data => setPart(data))
             .catch(e => setError(e.message))
     }, []);
