@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react"
 import { AppContext } from "../AppContext"
 import AppSettings from "../AppSettings"
-import Data from "../components/Data";
+import DataView from "../components/DataView";
 
 export default function Protected() {
     const { fetch } = useContext(AppContext)
@@ -17,9 +17,9 @@ export default function Protected() {
     return (
         <div>
             <h1>Protected Page</h1>
-            <Data data={part} error={error}>
+            <DataView data={part} error={error}>
                 <pre>{JSON.stringify(part, null, 4)}</pre>
-            </Data>
+            </DataView>
         </div>
     )
 }

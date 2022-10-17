@@ -1,6 +1,6 @@
 import React from "react"
 
-export default function Data({ data, error, children }) {
+export default function DataView({ data, error, children }) {
     return (<>
         {error && <div className="errorMessage">{error}</div>}
         {!error && !data && "Loading..."}

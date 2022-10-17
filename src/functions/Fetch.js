@@ -1,9 +1,10 @@
 import FetchError from "./FetchError";
 
-function defaultErrorMessage(status) {
+function defaultErrorMessage(status, url) {
     switch (status) {
         case 401: return "You are not authenticated"
         case 403: return "You do not have permission to access this page"
+        case 404: return "Page does not exist: " + url
         default: return "Unexpected Error"
     }
 }
@@ -27,7 +28,7 @@ export default async function Fetch(url, options, token) {
                 let text = await res.text()
                 var message = text ? String(text).replace(/['"]+/g, '')
                     : res.statusText ? res.statusText
-                        : defaultErrorMessage(res.status)
+                        : defaultErrorMessage(res.status, url)
                 throw new FetchError(res.status, message)
             }
         })

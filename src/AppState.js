@@ -78,7 +78,7 @@ export default function AppState({ children }) {
       })
   }
 
-  /*** AUTHENTICATE ***/
+  /*** FANCY FETCH ***/
     const authenticate = () => {
       const currentUrl = location.pathname + location.search
       const url = "/login?returnUrl=" + currentUrl
