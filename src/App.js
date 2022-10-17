@@ -12,7 +12,7 @@ export default function App() {
   // AppState is an AppContext.Provider which would typically be the outermost component.
   // We nest it within Router so that AppState can access the useNavigate hook
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="authclient">
       <AppState>
         <Routes>
           <Route path="/" element={<Layout />}>
