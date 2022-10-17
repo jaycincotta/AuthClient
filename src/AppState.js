@@ -29,6 +29,7 @@ export default function AppState({ children }) {
     parseNested(claims, 'Customer')
     setToken(jwt)
     setClaims(claims)
+    return claims
   }
 
   const login = (email, password) => {
@@ -44,8 +45,8 @@ export default function AppState({ children }) {
     // Normal login
     console.log("Login")
     return FetchToken(email, password).then(jwt => {
-      assignToken(jwt)
-      if (isLocal()) {
+      const claims = assignToken(jwt)
+      if (isLocal() && claims.UserName) {
         setLocalToken(jwt)
       }
     })
@@ -70,7 +71,7 @@ export default function AppState({ children }) {
     // clear localToken if running locally
     if (isLocal()) {
       console.log("Clearing localstorage token")
-      setLocalToken("")
+      setLocalToken() // no parameter === undefined which triggers removeItem
     }
 
     // Setting token null triggers useEffect to reauthenticate as an anonymous user

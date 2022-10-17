@@ -6,28 +6,24 @@ import Fetch from "../functions/Fetch"
 export default function Public() {
     const { token } = useContext(AppContext)
     const [part, setPart] = useState(null)
+    const [error, setError] = useState(null)
 
     useEffect(() => {
-        // delays call until initial authentication complete
-        if (!token) return;
-
         Fetch(AppSettings.Urls.Public, null, token)
             .then(res => res.json())
             .then(data => setPart(data))
             .catch(e => {
-                if (e.statusCode === 401) {
-                    console.log("Awaiting login")
-                } else {
-                    console.log("ERROR:", e)
-                }
+                console.log("ERROR", e.statusCode, e.message)
+                setError(e.message)
             })
-    }, [token]);
+    }, []);
 
     return (
         <div>
             <h1>Public Page</h1>
-            { !part && "Loading..."}
-            { part && <pre>{JSON.stringify(part, null, 4)}</pre> }
+            { error && <div className="errorMessage">{error}</div>}
+            { !error && !part && "Loading..."}
+            { !error && part && <pre>{JSON.stringify(part, null, 4)}</pre> }
         </div>
     )
 }

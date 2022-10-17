@@ -19,7 +19,13 @@ export default function useLocalStorage(key, initialValue) {
       const denullified = value === null ? initialValue : valueToStore;
       setStoredValue(denullified);
       const fullKey = AppSettings.AppName + "." + key;
-      window.localStorage.setItem(fullKey, JSON.stringify(denullified));
+
+      // If value undefined, remove item, otherwise, update it
+      if (value === undefined) {
+        window.localStorage.removeItem(fullKey);
+      } else {
+        window.localStorage.setItem(fullKey, JSON.stringify(denullified));
+      }
     } catch (e) {
       console.log("ERROR in useLocalStorage.setVaue", e);
     }

@@ -3,9 +3,14 @@ import { AppContext } from "../AppContext";
 import { Outlet, Link, useLocation } from "react-router-dom";
 
 export default function Layout() {
-  const { email, logout } = useContext(AppContext)
+  const { token, email, logout } = useContext(AppContext)
   const location = useLocation()
 
+  // Wait for AppState to initialize
+  if (!token) {
+    return <div>Initializing...</div>
+  }
+  
   return (
     <div>
       <header>
