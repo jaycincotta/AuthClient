@@ -1,10 +1,12 @@
 import React, { useState, useContext, useEffect } from "react"
 import { AppContext } from "../AppContext"
+import { DataContext } from "../test/DataContext"
 import AppSettings from "../AppSettings"
 import Fetch from "../functions/Fetch"
 
 export default function Public() {
     const { token } = useContext(AppContext)
+    const { count, increment } = useContext(DataContext)
     const [part, setPart] = useState(null)
     const [error, setError] = useState(null)
 
@@ -24,6 +26,7 @@ export default function Public() {
             { error && <div className="errorMessage">{error}</div>}
             { !error && !part && "Loading..."}
             { !error && part && <pre>{JSON.stringify(part, null, 4)}</pre> }
+            <h1>{count} <button onClick={increment}>+</button></h1>
         </div>
     )
 }
