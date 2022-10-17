@@ -59,7 +59,7 @@ export default function AppState({ children }) {
     }
 
     console.log("Implicit login")
-      login()
+    login()
   }, [token])
 
   const logout = () => {
