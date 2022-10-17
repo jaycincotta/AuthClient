@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react"
-import { AuthContext } from "../AuthContext"
+import { AuthContext } from "../context/AuthContext"
 import AppSettings from "../AppSettings"
 import DataView from "../components/DataView";
 

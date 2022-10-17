@@ -1,6 +1,6 @@
 import React, { useContext } from "react"
-import { AuthContext } from "../AuthContext"
-import { DataContext } from "../test/DataContext"
+import { AuthContext } from "../context/AuthContext"
+import { DataContext } from "../context/DataContext"
 
 export default function HomePage() {
   const { token, claims } = useContext(AuthContext)

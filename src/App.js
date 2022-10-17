@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import AuthProvider from "./AuthProvider";
-import DataProvider from "./test/DataProvider";
+import AuthProvider from "./context/AuthProvider";
+import DataProvider from "./context/DataProvider";
 import Layout from "./pages/_Layout";
 import HomePage from "./pages/HomePage";
 import Login from "./pages/Login";

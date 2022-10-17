@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
-import FetchToken from "./functions/FetchToken";
+import FetchToken from "../functions/FetchToken";
 import jwt_decode from "jwt-decode"
-import AppSettings from "./AppSettings";
-import Fetch from "./functions/Fetch";
-import useLocalStorage from "./hooks/useLocalStorage"
+import AppSettings from "../AppSettings";
+import Fetch from "../functions/Fetch";
+import useLocalStorage from "../hooks/useLocalStorage"
 
 //HACK: jwt_decode doesn't parse our nested objects
 function parseNested(claims, name) {

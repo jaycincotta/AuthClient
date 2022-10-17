@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react"
-import { AuthContext } from "../AuthContext"
-import { DataContext } from "../test/DataContext"
+import { AuthContext } from "../context/AuthContext"
+import { DataContext } from "../context/DataContext"
 import AppSettings from "../AppSettings"
 import Fetch from "../functions/Fetch"
 
