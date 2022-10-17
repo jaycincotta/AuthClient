@@ -5,7 +5,8 @@ const AppSettings = {
     TestGet: "https://mydev.caseparts.com/security/authenticate/",
     Login: "https://mydev.caseparts.com/security/authenticate/login",
     Logout: "https://mydev.caseparts.com/security/authenticate/logout",
-    Part: "https://mydev.caseparts.com/security/part"
+    Public: "https://mydev.caseparts.com/security/part",
+    Protected: "https://mydev.caseparts.com/security/part/test2"
   }
 };
 

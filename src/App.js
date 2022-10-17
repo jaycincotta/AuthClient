@@ -4,7 +4,8 @@ import AppState from "./AppState";
 import Layout from "./pages/_Layout";
 import HomePage from "./pages/HomePage";
 import Login from "./pages/Login";
-import Part from "./pages/Part";
+import Public from "./pages/Public";
+import Protected from "./pages/Protected";
 import "./styles.css";
 
 export default function App() {
@@ -16,7 +17,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route path="login" element={<Login />} />
-            <Route path="part" element={<Part />} />
+            <Route path="public" element={<Public />} />
+            <Route path="protected" element={<Protected />} />
             <Route index element={<HomePage />} />
             <Route path="*" element={<Navigate replace to="/" />} />
           </Route>

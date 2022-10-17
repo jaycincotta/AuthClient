@@ -10,7 +10,8 @@ export default function Layout() {
     <div>
       <header>
         <Link to="/">Home</Link>
-        <Link to="/part">Part</Link>
+        <Link to="/public">Public</Link>
+        <Link to="/protected">Protected</Link>
         {!email && <Link to={"/login?returnUrl=" + location.pathname} >Login</Link>}
         {email && <a href="#" onClick={logout}>Logout</a>}
         <div className="flexRight">{email}</div>

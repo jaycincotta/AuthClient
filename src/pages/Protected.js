@@ -3,7 +3,7 @@ import { AppContext } from "../AppContext"
 import AppSettings from "../AppSettings"
 import Fetch from "../functions/Fetch"
 
-export default function Part() {
+export default function Protected() {
     const { token } = useContext(AppContext)
     const [part, setPart] = useState(null)
 
@@ -11,7 +11,7 @@ export default function Part() {
         // delays call until initial authentication complete
         if (!token) return;
 
-        Fetch(AppSettings.Urls.Part, null, token)
+        Fetch(AppSettings.Urls.Protected, null, token)
             .then(res => res.json())
             .then(data => setPart(data))
             .catch(e => {
@@ -25,7 +25,7 @@ export default function Part() {
 
     return (
         <div>
-            <h1>Part</h1>
+            <h1>Protected Page (must be logged in)</h1>
             { !part && "Loading..."}
             { part && <pre>{JSON.stringify(part, null, 4)}</pre> }
         </div>
