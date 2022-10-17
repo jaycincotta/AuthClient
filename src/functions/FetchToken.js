@@ -3,7 +3,7 @@ import Fetch from "./Fetch"
 
 // FetchToken builds on Fetch to call auth endpoint and return a JWT
 // including stripping off quote characters.
-export default async function FetchToken(email, password, jwt) {
+export default async function FetchToken(email, password, token) {
     const options = {
         method: 'POST',
         headers: {
@@ -20,7 +20,7 @@ export default async function FetchToken(email, password, jwt) {
         })
     }
 
-    return Fetch(AppSettings.Urls.Login, options, jwt)
+    return Fetch(AppSettings.Urls.Login, options, token)
         .then(res => res ? res.text() : null)
         .then(jwt => jwt ? jwt.replace(/['"]+/g, '') : null)
 }

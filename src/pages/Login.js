@@ -27,12 +27,14 @@ export default function Login() {
     validateOnChange: false,
     validateOnBlur: false,
     onSubmit: (data) => {
-      console.log("SUBMIT", data)
       const url = params.get('returnUrl') ?? "/"
       login(data.email, data.password)
         .then(() => navigate(url))
         .catch(e => {
-          setErrorMsg(e.statusCode + ": " + e.message)
+          const msg = e.statusCode === 401 
+          ? "This email address and password combination doesn't exist. Please try again."
+          : e.message + " (Error " + e.statusCode + ")"
+          setErrorMsg(msg)
         })
     },
   });

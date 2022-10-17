@@ -8,6 +8,7 @@ export default function Part() {
     const [part, setPart] = useState(null)
 
     useEffect(() => {
+        // delays call until initial authentication complete
         if (!token) return;
 
         Fetch(AppSettings.Urls.Part, null, token)

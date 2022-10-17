@@ -3,7 +3,7 @@
 body {
   font-family: sans-serif;
   text-align: left;
-  font-size: 18px;
+  font-size: 16px;
   padding-inline: .5rem;
 }
 header {
@@ -32,7 +32,9 @@ button {
   margin-top: 1rem;
 }
 .errorMessage {
+
   color: red;
+  max-width: 24rem;
 }
 pre {
   max-width: 100vw;
