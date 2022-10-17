@@ -1,12 +1,15 @@
+*, *::before, *::after { box-sizing: border-box;}
+
 body {
   font-family: sans-serif;
   text-align: left;
   font-size: 18px;
+  padding-inline: .5rem;
 }
 header {
   display: flex;
   gap: 1rem;
-  width: 100vw;
+  width: 100%;
 }
 fieldset {
   display: grid;
@@ -37,5 +40,4 @@ pre {
 }
 .flexRight {
   margin-left: auto;
-  padding-right: 1rem;
 }
