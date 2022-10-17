@@ -86,7 +86,7 @@ export default function AppState({ children }) {
       navigate(url)
     }
 
-    const fetchJson = (url, options) => {
+    const fancyFetch = (url, options) => {
       return Fetch(url, options, token)
       .then(res => res.json())
       .catch(e => {
@@ -116,7 +116,7 @@ export default function AppState({ children }) {
         email: claims ? claims.UserName : "",
         login: login,
         logout: logout,
-        fetchJson: fetchJson
+        fetch: fancyFetch
       }}
     >
       {children}

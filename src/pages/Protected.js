@@ -4,12 +4,12 @@ import AppSettings from "../AppSettings"
 import Data from "../components/Data";
 
 export default function Protected() {
-    const { fetchJson } = useContext(AppContext)
+    const { fetch } = useContext(AppContext)
     const [part, setPart] = useState(null)
     const [error, setError] = useState(null)
 
     useEffect(() => {
-        fetchJson(AppSettings.Urls.Protected, null)
+        fetch(AppSettings.Urls.Protected)
             .then(data => setPart(data))
             .catch(e => setError(e.message))
     }, []);
