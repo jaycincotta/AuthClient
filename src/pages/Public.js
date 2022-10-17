@@ -1,11 +1,11 @@
 import React, { useState, useContext, useEffect } from "react"
-import { AppContext } from "../AppContext"
+import { AuthContext } from "../AuthContext"
 import { DataContext } from "../test/DataContext"
 import AppSettings from "../AppSettings"
 import Fetch from "../functions/Fetch"
 
 export default function Public() {
-    const { token } = useContext(AppContext)
+    const { token } = useContext(AuthContext)
     const { count, increment } = useContext(DataContext)
     const [part, setPart] = useState(null)
     const [error, setError] = useState(null)

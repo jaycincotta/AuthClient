@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import AppState from "./AppState";
+import AuthProvider from "./AuthProvider";
 import DataProvider from "./test/DataProvider";
 import Layout from "./pages/_Layout";
 import HomePage from "./pages/HomePage";
@@ -10,11 +10,9 @@ import Protected from "./pages/Protected";
 import "./styles.css";
 
 export default function App() {
-  // AppState is an AppContext.Provider which would typically be the outermost component.
-  // We nest it within Router so that AppState can access the useNavigate hook
   return (
     <BrowserRouter basename="authclient">
-      <AppState>
+      <AuthProvider>
         <DataProvider>
           <Routes>
             <Route path="/" element={<Layout />}>
@@ -26,7 +24,7 @@ export default function App() {
             </Route>
           </Routes>
         </DataProvider>
-      </AppState>
+      </AuthProvider>
     </BrowserRouter>
   );
 }

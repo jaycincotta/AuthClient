@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { AppContext } from "./AppContext";
+import { AuthContext } from "./AuthContext";
 import FetchToken from "./functions/FetchToken";
 import jwt_decode from "jwt-decode"
 import AppSettings from "./AppSettings";
@@ -18,7 +18,7 @@ function isLocal() {
   return location.hostname === "localhost" || location.hostname === "127.0.0.1"
 }
 
-export default function AppState({ children }) {
+export default function AuthProvider({ children }) {
   const [token, setToken] = useState(null)
   const [claims, setClaims] = useState({})
   const [localToken, setLocalToken] = useLocalStorage("token", "")
@@ -109,7 +109,7 @@ export default function AppState({ children }) {
   }, [token])
 
   return (
-    <AppContext.Provider
+    <AuthContext.Provider
       value={{
         token: token,
         claims: claims,
@@ -120,6 +120,6 @@ export default function AppState({ children }) {
       }}
     >
       {children}
-    </AppContext.Provider>
+    </AuthContext.Provider>
   );
 }

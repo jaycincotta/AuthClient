@@ -1,10 +1,10 @@
 import React, { useState, useContext, useEffect } from "react"
-import { AppContext } from "../AppContext"
+import { AuthContext } from "../AuthContext"
 import AppSettings from "../AppSettings"
 import DataView from "../components/DataView";
 
 export default function Protected() {
-    const { fetch } = useContext(AppContext)
+    const { fetch } = useContext(AuthContext)
     const [part, setPart] = useState(null)
     const [error, setError] = useState(null)
 

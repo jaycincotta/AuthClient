@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
-import { AppContext } from "../AppContext";
+import { AuthContext } from "../AuthContext";
 import { Outlet, Link, useLocation } from "react-router-dom";
 
 export default function Layout() {
-  const { token, email, logout } = useContext(AppContext)
+  const { token, email, logout } = useContext(AuthContext)
   const location = useLocation()
 
-  // Wait for AppState to initialize
+  // Wait for AuthProvider to initialize
   if (!token) {
     return <div>Initializing...</div>
   }

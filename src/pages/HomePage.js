@@ -1,9 +1,9 @@
 import React, { useContext } from "react"
-import { AppContext } from "../AppContext"
+import { AuthContext } from "../AuthContext"
 import { DataContext } from "../test/DataContext"
 
 export default function HomePage() {
-  const { token, claims } = useContext(AppContext)
+  const { token, claims } = useContext(AuthContext)
   const { count, increment } = useContext(DataContext)
   console.log("Render HomePage")
   return (

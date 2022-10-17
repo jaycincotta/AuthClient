@@ -1,11 +1,11 @@
 import React, { useState, useContext } from "react"
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { AppContext } from "../AppContext"
+import { AuthContext } from "../AuthContext"
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 
 export default function Login() {
-  const { login } = useContext(AppContext)
+  const { login } = useContext(AuthContext)
   const [errorMsg, setErrorMsg] = useState("")
   const [params] = useSearchParams()
   const navigate = useNavigate();
