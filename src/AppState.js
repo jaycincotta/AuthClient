@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { AppContext } from "./AppContext";
 import FetchToken from "./functions/FetchToken";
 import jwt_decode from "jwt-decode"
@@ -19,10 +19,11 @@ function isLocal() {
 }
 
 export default function AppState({ children }) {
-  const [token, setToken] = useState(null);
-  const [claims, setClaims] = useState({});
+  const [token, setToken] = useState(null)
+  const [claims, setClaims] = useState({})
   const [localToken, setLocalToken] = useLocalStorage("token", "")
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const assignToken = jwt => {
     var claims = jwt_decode(jwt)
@@ -32,11 +33,14 @@ export default function AppState({ children }) {
     return claims
   }
 
+  /*** LOGIN ***/
   const login = (email, password) => {
     //Localhost implicit login
     if (isLocal() && localToken && !email) {
       console.log("using localstorage token")
       assignToken(localToken)
+
+      // For consistency with FetchToken, return a promise
       return new Promise(function (resolve) {
         resolve(localToken)
       })
@@ -52,21 +56,9 @@ export default function AppState({ children }) {
     })
   }
 
-  useEffect(() => {
-    // Ignore implicit login when token already defined
-    if (token) {
-      return
-    }
-
-    console.log("Implicit login")
-    login()
-  }, [token])
-
-  const logout = () => {
+  /*** LOGOUT ***/
+   const logout = () => {
     console.log("Logout")
-
-    // Logout of server to clear cookie
-    Fetch(AppSettings.Urls.Logout, { method: 'POST' }, token)
 
     // clear localToken if running locally
     if (isLocal()) {
@@ -74,13 +66,34 @@ export default function AppState({ children }) {
       setLocalToken() // no parameter === undefined which triggers removeItem
     }
 
-    // Setting token null triggers useEffect to reauthenticate as an anonymous user
-    setToken(null)
-    setClaims({})
+    // Logout of server to clear cookie
+    Fetch(AppSettings.Urls.Logout, { method: 'POST' }, token)
+      .then(() => {
+        // Setting token null triggers useEffect to reauthenticate as an anonymous user
+        setToken(null)
+        setClaims({})
 
-    // Not required, but redirect to home seems reasonable
-    navigate("/")
+        // Not required, but redirect to home seems reasonable
+        navigate("/")
+      })
   }
+
+  /*** AUTHENTICATE ***/
+    const authenticate = () => {
+      const currentUrl = location.pathname + location.search
+      const url = "/login?returnUrl=" + currentUrl
+      console.log("Redirect", url)
+      navigate(url)
+    }
+
+  useEffect(() => {
+    // Ignore implicit login when token already defined
+    if (token) {
+      return
+    }
+    console.log("Implicit login")
+    login()
+  }, [token])
 
   return (
     <AppContext.Provider
@@ -89,7 +102,8 @@ export default function AppState({ children }) {
         claims: claims,
         email: claims ? claims.UserName : "",
         login: login,
-        logout: logout
+        logout: logout,
+        authenticate: authenticate
       }}
     >
       {children}

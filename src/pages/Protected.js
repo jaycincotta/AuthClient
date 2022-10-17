@@ -2,21 +2,17 @@ import React, { useState, useContext, useEffect } from "react"
 import { AppContext } from "../AppContext"
 import AppSettings from "../AppSettings"
 import FetchSecure from "../functions/FetchSecure"
-import { useNavigate } from "react-router-dom";
 import Data from "../components/Data";
 
 export default function Protected() {
-    const { token } = useContext(AppContext)
-    const navigate = useNavigate()
+    const { token, authenticate } = useContext(AppContext)
     const [part, setPart] = useState(null)
     const [error, setError] = useState(null)
 
     useEffect(() => {
-        FetchSecure(AppSettings.Urls.Protected, null, token, navigate)
+        FetchSecure(AppSettings.Urls.Protected, null, token, authenticate)
             .then(data => setPart(data))
-            .catch(e => {
-                setError(e.message)
-            })
+            .catch(e => setError(e.message))
     }, []);
 
     return (

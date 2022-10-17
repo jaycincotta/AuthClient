@@ -28,8 +28,9 @@ export default function Login() {
     validateOnBlur: false,
     onSubmit: (data) => {
       const url = params.get('returnUrl') ?? "/"
+      
       login(data.email, data.password)
-        .then(() => navigate(url))
+        .then(() => {console.log("Login redirect", url); navigate(url)})
         .catch(e => {
           const msg = e.statusCode === 401 
           ? "This email address and password combination doesn't exist. Please try again."
