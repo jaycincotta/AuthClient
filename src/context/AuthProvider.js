@@ -87,25 +87,25 @@ export default function AuthProvider({ children }) {
 
   async function fetchToken(email, password, token) {
     const options = {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'ApiKey': process.env.REACT_APP_APIKEY
-        }
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'ApiKey': process.env.REACT_APP_APIKEY
+      }
     }
     if (email) {
-        options.body = JSON.stringify({
-            UserName: email,
-            Password: password,
-            RememberMe: false
-        })
+      options.body = JSON.stringify({
+        UserName: email,
+        Password: password,
+        RememberMe: false
+      })
     }
 
     return fancyFetch(AppSettings.Urls.Login, options)
-        .then(res => res ? res.text() : null)
-        .then(jwt => jwt ? jwt.replace(/['"]+/g, '') : null)
-}
+      .then(res => res ? res.text() : null)
+      .then(jwt => jwt ? jwt.replace(/['"]+/g, '') : null)
+  }
 
   const assignToken = jwt => {
     var claims = jwt_decode(jwt)
@@ -131,13 +131,22 @@ export default function AuthProvider({ children }) {
 
     // Normal login
     console.log("Login")
-    return fetchToken(email, password).then(jwt => {
-      const claims = assignToken(jwt)
-      if (isLocal() && claims.UserName) {
-        setLocalToken(jwt)
-      }
-    })
-    .catch(e => setInitialized(e.message))
+    return fetchToken(email, password)
+      .then(jwt => {
+        const claims = assignToken(jwt)
+        if (isLocal() && claims.UserName) {
+          setLocalToken(jwt)
+        }
+      })
+      .catch(e => {
+        // If called from Login page, let the page handle the error
+        // Otherwise, display error for failed implicit login
+        if (email) {
+          throw e
+        } else {
+          setInitialized(e.message)
+        }
+      })
   }
 
   /*** LOGOUT ***/
