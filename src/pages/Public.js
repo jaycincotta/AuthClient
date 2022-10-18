@@ -2,16 +2,15 @@ import React, { useState, useContext, useEffect } from "react"
 import { AuthContext } from "../context/AuthContext"
 import { DataContext } from "../context/DataContext"
 import AppSettings from "../AppSettings"
-import Fetch from "../functions/Fetch"
 
 export default function Public() {
-    const { token } = useContext(AuthContext)
+    const { fetch } = useContext(AuthContext)
     const { count, increment } = useContext(DataContext)
     const [part, setPart] = useState(null)
     const [error, setError] = useState(null)
 
     useEffect(() => {
-        Fetch(AppSettings.Urls.Public, null, token)
+        fetch(AppSettings.Urls.Public)
             .then(res => res.json())
             .then(data => setPart(data))
             .catch(e => {

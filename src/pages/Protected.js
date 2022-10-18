@@ -10,6 +10,7 @@ export default function Protected() {
 
     useEffect(() => {
         fetch(AppSettings.Urls.Protected)
+            .then(res => res.json())
             .then(data => setPart(data))
             .catch(e => setError(e.message))
     }, []);

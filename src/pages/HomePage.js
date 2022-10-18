@@ -3,7 +3,7 @@ import { AuthContext } from "../context/AuthContext"
 import { DataContext } from "../context/DataContext"
 
 export default function HomePage() {
-  const { token, claims } = useContext(AuthContext)
+  const { claims } = useContext(AuthContext)
   const { count, increment } = useContext(DataContext)
   console.log("Render HomePage")
   return (

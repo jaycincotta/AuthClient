@@ -3,12 +3,14 @@ import { AuthContext } from "../context/AuthContext";
 import { Outlet, Link, useLocation } from "react-router-dom";
 
 export default function Layout() {
-  const { token, email, logout } = useContext(AuthContext)
+  const { initialized, email, logout } = useContext(AuthContext)
   const location = useLocation()
 
   // Wait for AuthProvider to initialize
-  if (!token) {
+  if (!initialized) {
     return <div>Initializing...</div>
+  } else if (initialized !== "OK") {
+    return <div className="errorMessage">{initialized}</div>
   }
   
   return (
