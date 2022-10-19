@@ -4,6 +4,7 @@ import AuthProvider from "./context/AuthProvider";
 import DataProvider from "./context/DataProvider";
 import Layout from "./pages/_Layout";
 import HomePage from "./pages/HomePage";
+import Test from "./pages/_Test";
 import Login from "./pages/Login";
 import Guest from "./pages/test/Guest";
 import Customer from "./pages/test/Customer";
@@ -19,10 +20,12 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route path="login" element={<Login />} />
-              <Route path="guest" element={<Guest />} />
-              <Route path="customer" element={<Customer />} />
-              <Route path="linkedcustomer" element={<LinkedCustomer />} />
-              <Route path="employee" element={<Employee />} />
+              <Route path="test" element={<Test />}>
+                <Route path="guest" element={<Guest />} />
+                <Route path="customer" element={<Customer />} />
+                <Route path="linkedcustomer" element={<LinkedCustomer />} />
+                <Route path="employee" element={<Employee />} />
+              </Route>
               <Route index element={<HomePage />} />
               <Route path="*" element={<Navigate replace to="/" />} />
             </Route>

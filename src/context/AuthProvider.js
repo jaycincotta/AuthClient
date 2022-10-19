@@ -63,7 +63,6 @@ export default function AuthProvider({ children }) {
         if (e.statusCode === 403) {
           authenticate()
         } else {
-          console.log("ERROR", e.statusCode, e.message)
           throw e
         }
       })
@@ -83,8 +82,12 @@ export default function AuthProvider({ children }) {
           return login()
             .then(newToken => { options.headers.Authorization = "Bearer " + newToken })
             .then(() => fancyFetch(url, options))
+            .catch(e => {
+              console.log("ERROR on retry", e.statusCode, e.message)
+              throw e
+            })
         } else {
-          console.log("ERROR on retry", e.statusCode, e.message)
+          console.log("ERROR", e.statusCode, e.message)
           throw e
         }
       })
