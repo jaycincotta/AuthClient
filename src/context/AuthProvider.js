@@ -138,15 +138,6 @@ export default function AuthProvider({ children }) {
           setLocalToken(jwt)
         }
       })
-      .catch(e => {
-        // If called from Login page, let the page handle the error
-        // Otherwise, display error for failed implicit login
-        if (email) {
-          throw e
-        } else {
-          setInitialized(e.message)
-        }
-      })
   }
 
   /*** LOGOUT ***/
@@ -178,6 +169,9 @@ export default function AuthProvider({ children }) {
     }
     console.log("Implicit login")
     login()
+    .catch(e => {
+        setInitialized(e.message)
+    })
   }, [token])
 
   return (
