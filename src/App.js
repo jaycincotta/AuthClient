@@ -5,8 +5,10 @@ import DataProvider from "./context/DataProvider";
 import Layout from "./pages/_Layout";
 import HomePage from "./pages/HomePage";
 import Login from "./pages/Login";
-import Public from "./pages/Public";
-import Protected from "./pages/Protected";
+import Guest from "./pages/Guest";
+import Customer from "./pages/Customer";
+import LinkedCustomer from "./pages/LinkedCustomer";
+import Employee from "./pages/Employee";
 import "./styles.css";
 
 export default function App() {
@@ -17,8 +19,10 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route path="login" element={<Login />} />
-              <Route path="public" element={<Public />} />
-              <Route path="protected" element={<Protected />} />
+              <Route path="guest" element={<Guest />} />
+              <Route path="customer" element={<Customer />} />
+              <Route path="linkedcustomer" element={<LinkedCustomer />} />
+              <Route path="employee" element={<Employee />} />
               <Route index element={<HomePage />} />
               <Route path="*" element={<Navigate replace to="/" />} />
             </Route>

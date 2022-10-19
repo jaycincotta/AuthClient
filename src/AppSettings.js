@@ -1,11 +1,14 @@
+const API = endpoint => "https://mydev.caseparts.com/secure/" + endpoint
+
 const AppSettings = {
   AppName:"CPC",
   Urls: {
-    TestGet: "https://mydev.caseparts.com/security/authenticate/",
-    Login: "https://mydev.caseparts.com/security/authenticate/login",
-    Logout: "https://mydev.caseparts.com/security/authenticate/logout",
-    Public: "https://mydev.caseparts.com/security/part",
-    Protected: "https://mydev.caseparts.com/security/part/test2"
+    Login:          API("authenticate/login"),
+    Logout:         API("authenticate/logout"),
+    Guest:          API("test/guest"),
+    Customer:       API("test/customer"),
+    LinkedCustomer: API("test/linkedcustomer"),
+    Employee:       API("test/employee"),
   }
 };
 

@@ -3,23 +3,23 @@ import { AuthContext } from "../context/AuthContext"
 import AppSettings from "../AppSettings"
 import DataView from "../components/DataView";
 
-export default function Protected() {
+export default function Guest() {
     const { fetch } = useContext(AuthContext)
-    const [part, setPart] = useState(null)
+    const [data, setData] = useState(null)
     const [error, setError] = useState(null)
 
     useEffect(() => {
-        fetch(AppSettings.Urls.Protected)
+        fetch(AppSettings.Urls.Guest)
             .then(res => res.json())
-            .then(data => setPart(data))
+            .then(data => setData(data))
             .catch(e => setError(e.message))
     }, []);
 
     return (
         <div>
-            <h1>Protected Page</h1>
+            <h1>Guest Page</h1>
             <DataView data={part} error={error}>
-                <pre>{JSON.stringify(part, null, 4)}</pre>
+                <pre>{JSON.stringify(data, null, 4)}</pre>
             </DataView>
         </div>
     )
