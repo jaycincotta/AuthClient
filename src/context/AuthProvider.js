@@ -57,11 +57,6 @@ export default function AuthProvider({ children }) {
   }
 
   const fancyFetch = (url, options) => {
-    if (!options) options = { method: 'GET' }
-    if (!options.headers && token) options.headers = {}
-    if (token) options.headers.Authorization = "Bearer " + token
-    console.log(options.method, url)
-
     return fetch(url, options)
       .then(async res => {
         if (res.status <= 400) { return res }
@@ -76,7 +71,7 @@ export default function AuthProvider({ children }) {
         }
       })
       .catch(e => {
-        if (e.statusCode === 403 && authenticate) {
+        if (e.statusCode === 403) {
           authenticate()
         } else {
           console.log("ERROR", e.statusCode, e.message)
@@ -85,7 +80,26 @@ export default function AuthProvider({ children }) {
       })
   }
 
-  async function fetchToken(email, password, token) {
+  const fancyFetchWithRetry = (url, options) => {
+    if (!options) options = { method: 'GET' }
+    if (!options.headers && token) options.headers = {}
+    if (token) options.headers.Authorization = "Bearer " + token
+    console.log(options.method, url)
+
+    return fancyFetch(url, options)
+      .catch(e => {
+        if (e.statusCode === 401) {
+          return login()
+          .then(newToken => { options.headers.Authorization = "Bearer " + newToken })
+          .then(() => fancyFetch(url, options))
+        } else {
+          console.log("ERROR on retry", e.statusCode, e.message)
+          throw e
+        }
+      })
+  }
+
+  async function fetchToken(email, password) {
     const options = {
       method: 'POST',
       headers: {
@@ -137,6 +151,7 @@ export default function AuthProvider({ children }) {
         if (isLocal() && claims.UserName) {
           setLocalToken(jwt)
         }
+        return jwt
       })
   }
 
@@ -151,7 +166,7 @@ export default function AuthProvider({ children }) {
     }
 
     // Logout of server to clear cookie
-    fancyFetch(AppSettings.Urls.Logout, { method: 'POST' }, token)
+    fancyFetch(AppSettings.Urls.Logout, { method: 'POST' })
       .then(() => {
         // Setting token null triggers useEffect to reauthenticate as an anonymous user
         setToken(null)
@@ -169,9 +184,9 @@ export default function AuthProvider({ children }) {
     }
     console.log("Implicit login")
     login()
-    .catch(e => {
+      .catch(e => {
         setInitialized(e.message)
-    })
+      })
   }, [token])
 
   return (
@@ -182,7 +197,7 @@ export default function AuthProvider({ children }) {
         email: claims ? claims.UserName : "",
         login: login,
         logout: logout,
-        fetch: fancyFetch
+        fetch: fancyFetchWithRetry
       }}
     >
       {children}
