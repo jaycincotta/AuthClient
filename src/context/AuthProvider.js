@@ -135,6 +135,10 @@ export default function AuthProvider({ children }) {
     var claims = jwt_decode(jwt)
     parseNested(claims, 'Customer')
     parseNested(claims, 'Employee')
+    if (claims.Employee && claims.Employee.Rights) {
+      const rights = claims.Employee.Rights.split(", ")
+      claims.Employee.Rights = rights
+    }
     setInitialized("OK")
     setToken(jwt)
     setClaims(claims)
