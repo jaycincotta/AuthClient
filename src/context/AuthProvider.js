@@ -134,6 +134,7 @@ export default function AuthProvider({ children }) {
   const assignToken = jwt => {
     var claims = jwt_decode(jwt)
     parseNested(claims, 'Customer')
+    parseNested(claims, 'Employee')
     setInitialized("OK")
     setToken(jwt)
     setClaims(claims)
@@ -206,7 +207,12 @@ export default function AuthProvider({ children }) {
       value={{
         initialized: initialized,
         claims: claims,
-        email: claims ? claims.UserName : "",
+        email: claims && claims.Customer && claims.Customer.UserName
+            ? claims.Customer.UserName
+            : claims && claims.Employee && claims.Employee.UserName
+              ? claims.Employee.UserName
+              : "",
+        isEmployee: claims && claims.Employee && claims.Employee.UserName,
         login: login,
         logout: logout,
         fetch: fancyFetchWithRetry

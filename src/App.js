@@ -7,6 +7,7 @@ import HomePage from "./pages/HomePage";
 import NotFound from "./pages/NotFound"
 import Test from "./pages/_Test";
 import Login from "./pages/Login";
+import Impersonate from "./pages/Impersonate";
 import Guest from "./pages/test/Guest";
 import Customer from "./pages/test/Customer";
 import LinkedCustomer from "./pages/test/LinkedCustomer";
@@ -21,6 +22,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route path="login" element={<Login />} />
+              <Route path="impersonate" element={<Impersonate />} />
               <Route path="test" element={<Test />}>
                 <Route path="guest" element={<Guest />} />
                 <Route path="customer" element={<Customer />} />

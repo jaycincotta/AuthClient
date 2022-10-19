@@ -1,14 +1,17 @@
 const API = endpoint => "https://mydev.caseparts.com/secure/" + endpoint
 
 const AppSettings = {
-  AppName:"CPC",
+  AppName: "CPC",
   Urls: {
-    Login:          API("authenticate/login"),
-    Logout:         API("authenticate/logout"),
-    Guest:          API("test/guest"),
-    Customer:       API("test/customer"),
+    Login: API("authenticate/login"),
+    Logout: API("authenticate/logout"),
+    Impersonate: custId => custId
+      ? API("authenticate/impersonate?custId=") + custId
+      : API("authenticate/impersonate"),
+    Guest: API("test/guest"),
+    Customer: API("test/customer"),
     LinkedCustomer: API("test/linkedcustomer"),
-    Employee:       API("test/employee"),
+    Employee: API("test/employee")
   }
 };
 

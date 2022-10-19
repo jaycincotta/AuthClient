@@ -24,13 +24,10 @@ input {
 button {
   cursor: pointer;
 }
-.login fieldset {
+fieldset {
   padding: 1rem;
   max-width: 24rem;
-}
-.login button {
-  font-size: 1rem;
-  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 .errorMessage {
 
@@ -48,4 +45,8 @@ pre {
   height: 95vh;
   padding: 1px 1rem;
   background-color: rgb(255, 238, 217);
+}
+.flex {
+  display: flex;
+  gap: 1rem;
 }
