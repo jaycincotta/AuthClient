@@ -1,12 +1,19 @@
 import React, { useState, useContext } from "react"
+import { Navigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext"
 import AppSettings from "../AppSettings"
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 
 export default function Impersonate() {
-    const { fetch, claims } = useContext(AuthContext)
+    const { fetch, claims, userType, authenticate } = useContext(AuthContext)
     const [errorMsg, setErrorMsg] = useState("")
+
+    // This will redirect to the Login page, then redirect back here
+    // after successfull login
+    if (userType !== "Employee") {
+        authenticate()
+    }
 
     const impersonate = custId => {
         fetch(AppSettings.Urls.Impersonate(custId))
@@ -34,8 +41,8 @@ export default function Impersonate() {
         }
     })
 
-    const customer = claims && claims.Customer && claims.Customer.Id
-        ? claims.Customer.Id + ": " + claims.Customer.Name : ""
+    const customer = claims && claims.Customer && claims.Customer
+        ? claims.Customer.CustId + ": " + claims.Customer.CustName : ""
 
     const denullify = value => value ? value : ""
     const ifError = (name, yes, no) => formik.errors[name] && formik.touched[name] ? denullify(yes) : denullify(no)

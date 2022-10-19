@@ -216,7 +216,8 @@ export default function AuthProvider({ children }) {
             : claims && claims.Employee && claims.Employee.UserName
               ? claims.Employee.UserName
               : "",
-        isEmployee: claims && claims.Employee && claims.Employee.UserName,
+        userType: claims ? claims.UserType : "",
+        authenticate: authenticate,
         login: login,
         logout: logout,
         fetch: fancyFetchWithRetry
