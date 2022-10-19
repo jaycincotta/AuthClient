@@ -8,6 +8,7 @@ body {
 }
 header {
   display: flex;
+  font-size: .8rem;
   gap: 1rem;
   width: 100%;
 }
@@ -44,5 +45,7 @@ pre {
   margin-left: auto;
 }
 .test {
-  background-color: bisque;
+  height: 95vh;
+  padding: 1px 1rem;
+  background-color: rgb(255, 238, 217);
 }
