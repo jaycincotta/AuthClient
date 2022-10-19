@@ -18,7 +18,7 @@ export default function Employee() {
     return (
         <div>
             <h1>Employee Page</h1>
-            <DataView data={part} error={error}>
+            <DataView data={data} error={error}>
                 <pre>{JSON.stringify(data, null, 4)}</pre>
             </DataView>
         </div>

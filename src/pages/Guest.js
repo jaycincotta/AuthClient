@@ -8,6 +8,7 @@ export default function Guest() {
     const [data, setData] = useState(null)
     const [error, setError] = useState(null)
 
+
     useEffect(() => {
         fetch(AppSettings.Urls.Guest)
             .then(res => res.json())
@@ -18,7 +19,7 @@ export default function Guest() {
     return (
         <div>
             <h1>Guest Page</h1>
-            <DataView data={part} error={error}>
+            <DataView data={data} error={error}>
                 <pre>{JSON.stringify(data, null, 4)}</pre>
             </DataView>
         </div>
