@@ -5,17 +5,6 @@ import jwt_decode from "jwt-decode"
 import AppSettings from "../AppSettings";
 import useLocalStorage from "../hooks/useLocalStorage"
 
-//HACK: jwt_decode doesn't parse our nested objects
-function parseNested(claims, name) {
-  if (claims && typeof claims[name] === 'string' && claims[name].length > 0) {
-    claims[name] = JSON.parse(claims[name])
-  }
-}
-
-function isLocal() {
-  return location.hostname === "localhost" || location.hostname === "127.0.0.1"
-}
-
 export default function AuthProvider({ children }) {
   const [token, setToken] = useState(null)
   const [initialized, setInitialized] = useState("")
@@ -25,27 +14,27 @@ export default function AuthProvider({ children }) {
   const location = useLocation()
 
   console.log("INIT", process.env.NODE_ENV, process.env.REACT_APP_APIKEY)
-  /****************************************  
-   *** FANCY FETCH
-   Extend standard fetch behavior with:
-   - Error handling
-   - Case Parts authentication
-   ***/
 
+  //#region Fetch extensions
+
+  //#region fancyFetch plus related helpers
+
+  // Extends Error to include statusCode
+  class FetchError extends Error {
+    constructor(statusCode, message) {
+      super(message)
+      this.name = "FetchError"
+      this.statusCode = statusCode
+    }
+  }
+
+  // Provides default error messages for common status codes
   function defaultErrorMessage(status, url) {
     switch (status) {
       case 401: return "You are not authenticated"
       case 403: return "You do not have permission to access this page"
       case 404: return "Page does not exist: " + url
       default: return "Unexpected Error"
-    }
-  }
-
-  class FetchError extends Error {
-    constructor(statusCode, message) {
-      super(message)
-      this.name = "FetchError"
-      this.statusCode = statusCode
     }
   }
 
@@ -80,6 +69,8 @@ export default function AuthProvider({ children }) {
       })
   }
 
+  //#endregion fancyFetch plus related helpers
+
   const fancyFetchWithRetry = (url, options) => {
     if (!options) options = { method: 'GET' }
     if (!options.headers && token) options.headers = {}
@@ -90,8 +81,8 @@ export default function AuthProvider({ children }) {
       .catch(e => {
         if (e.statusCode === 401) {
           return login()
-          .then(newToken => { options.headers.Authorization = "Bearer " + newToken })
-          .then(() => fancyFetch(url, options))
+            .then(newToken => { options.headers.Authorization = "Bearer " + newToken })
+            .then(() => fancyFetch(url, options))
         } else {
           console.log("ERROR on retry", e.statusCode, e.message)
           throw e
@@ -99,6 +90,7 @@ export default function AuthProvider({ children }) {
       })
   }
 
+  // fetchToken is used by login to get JWT for user as a bearer token
   async function fetchToken(email, password) {
     const options = {
       method: 'POST',
@@ -119,6 +111,21 @@ export default function AuthProvider({ children }) {
     return fancyFetch(AppSettings.Urls.Login, options)
       .then(res => res ? res.text() : null)
       .then(jwt => jwt ? jwt.replace(/['"]+/g, '') : null)
+  }
+
+  //#endregion Fetch extensions
+
+  //#region Login/Logout with related helpers
+
+  function isLocal() {
+    return location.hostname === "localhost" || location.hostname === "127.0.0.1"
+  }
+
+  //HACK: jwt_decode doesn't parse our nested objects
+  function parseNested(claims, name) {
+    if (claims && typeof claims[name] === 'string' && claims[name].length > 0) {
+      claims[name] = JSON.parse(claims[name])
+    }
   }
 
   const assignToken = jwt => {
@@ -176,6 +183,8 @@ export default function AuthProvider({ children }) {
         navigate("/")
       })
   }
+
+  //#endregion Login/Logout with related helpers
 
   useEffect(() => {
     // Ignore implicit login when token already defined
