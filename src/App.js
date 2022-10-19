@@ -4,6 +4,7 @@ import AuthProvider from "./context/AuthProvider";
 import DataProvider from "./context/DataProvider";
 import Layout from "./pages/_Layout";
 import HomePage from "./pages/HomePage";
+import NotFound from "./pages/NotFound"
 import Test from "./pages/_Test";
 import Login from "./pages/Login";
 import Guest from "./pages/test/Guest";
@@ -27,7 +28,7 @@ export default function App() {
                 <Route path="employee" element={<Employee />} />
               </Route>
               <Route index element={<HomePage />} />
-              <Route path="*" element={<Navigate replace to="/" />} />
+              <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
         </DataProvider>
