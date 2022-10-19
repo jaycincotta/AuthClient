@@ -18,7 +18,7 @@ export default function Impersonate() {
         custId: Yup.string()
             .required("CustId is required")
             .min(6, "CustId must be at least 6 characters")
-            .max(15, "CustId must not exceed 15 characters"),
+            .max(50, "CustId must not exceed 50 characters"),
     })
 
     const formik = useFormik({
