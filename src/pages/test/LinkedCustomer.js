@@ -18,7 +18,7 @@ export default function LinkedCustomer() {
     return (
         <div>
             <h1>Linked Customer Page</h1>
-            <DataView data={part} error={error}>
+            <DataView data={data} error={error}>
                 <pre>{JSON.stringify(data, null, 4)}</pre>
             </DataView>
         </div>
