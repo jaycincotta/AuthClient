@@ -5,10 +5,10 @@ import DataProvider from "./context/DataProvider";
 import Layout from "./pages/_Layout";
 import HomePage from "./pages/HomePage";
 import Login from "./pages/Login";
-import Guest from "./pages/Guest";
-import Customer from "./pages/Customer";
-import LinkedCustomer from "./pages/LinkedCustomer";
-import Employee from "./pages/Employee";
+import Guest from "./pages/test/Guest";
+import Customer from "./pages/test/Customer";
+import LinkedCustomer from "./pages/test/LinkedCustomer";
+import Employee from "./pages/test/Employee";
 import "./styles.css";
 
 export default function App() {
