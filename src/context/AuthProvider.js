@@ -13,7 +13,7 @@ export default function AuthProvider({ children }) {
   const navigate = useNavigate()
   const location = useLocation()
 
-  console.log("INIT", process.env.NODE_ENV, process.env.REACT_APP_APIKEY)
+  console.log("INIT", process.env.NODE_ENV)
 
   //#region Fetch extensions
 
