@@ -192,7 +192,7 @@ export default function AuthProvider({ children }) {
         setClaims({})
 
         // Not required, but redirect to home seems reasonable
-        navigate("/")
+        //navigate("/")
       })
   }
 
@@ -217,11 +217,14 @@ export default function AuthProvider({ children }) {
 
   useEffect(() => {
     // Ignore implicit login when token already defined
+    console.log("init Auth", window.location.href, location)
     if (token) {
       return
     }
     console.log("Implicit login")
     login()
+      .then(res => console.log("init login Auth", window.location.href, location)
+      )
       .catch(e => {
         setInitialized(e.message)
       })

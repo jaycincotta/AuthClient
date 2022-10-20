@@ -15,6 +15,8 @@ import Employee from "./pages/test/Employee";
 import "./styles.css";
 
 export default function App() {
+  console.log("App", window.location.href)
+
   return (
     <BrowserRouter basename="authclient">
       <AuthProvider>
