@@ -5,8 +5,8 @@ const AppSettings = {
   Urls: {
     Login: API("authenticate/login"),
     Logout: API("authenticate/logout"),
-    Impersonate: custId => custId
-      ? API("authenticate/impersonate?custId=") + custId
+    Impersonate: email => email
+      ? API("authenticate/impersonate?email=") + email
       : API("authenticate/impersonate"),
     Guest: API("test/guest"),
     Customer: API("test/customer"),

@@ -48,7 +48,7 @@ export default function AuthProvider({ children }) {
   const fancyFetch = (url, options) => {
     return fetch(url, options)
       .then(async res => {
-        if (res.status <= 400) { return res }
+        if (res.status < 400) { return res }
         else {
           // use await vs then() to block other async branches
           // https://dev.to/masteringjs/using-then-vs-async-await-in-javascript-2pma
@@ -93,35 +93,14 @@ export default function AuthProvider({ children }) {
       })
   }
 
-  // fetchToken is used by login to get JWT for user as a bearer token
-  async function fetchToken(email, password) {
-    const options = {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'ApiKey': process.env.REACT_APP_APIKEY
-      }
-    }
-    if (email) {
-      options.body = JSON.stringify({
-        UserName: email,
-        Password: password,
-        RememberMe: false
-      })
-    }
-
-    return fancyFetch(AppSettings.Urls.Login, options)
-      .then(res => res ? res.text() : null)
-      .then(jwt => jwt ? jwt.replace(/['"]+/g, '') : null)
-  }
-
   //#endregion Fetch extensions
 
   //#region Login/Logout with related helpers
 
   function isLocal() {
-    return location.hostname === "localhost" || location.hostname === "127.0.0.1"
+    // Curiously, hostname isn't passed through useLocation
+    const hostname = window.location.hostname
+    return hostname === "localhost" || hostname === "127.0.0.1"
   }
 
   //HACK: jwt_decode doesn't parse our nested objects
@@ -145,6 +124,38 @@ export default function AuthProvider({ children }) {
     return claims
   }
 
+  // fetchToken is used by login to get JWT for user as a bearer token
+  async function fetchToken(email, password) {
+    console.log("fetchToken", email)
+    const options = {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'ApiKey': process.env.REACT_APP_APIKEY
+      }
+    }
+    if (email) {
+      options.body = JSON.stringify({
+        UserName: email,
+        Password: password,
+        RememberMe: false
+      })
+    }
+
+    return fancyFetch(AppSettings.Urls.Login, options)
+      .then(res => res ? res.text() : null)
+      .then(jwt => jwt ? jwt.replace(/['"]+/g, '') : null)
+      .then(jwt => {
+        const claims = assignToken(jwt)
+        if (isLocal() && claims.UserType != "Guest") {
+          console.log("Assign local token", isLocal(), claims)
+          setLocalToken(jwt)
+        }
+        return jwt
+      })
+  }
+
   /*** LOGIN ***/
   const login = (email, password) => {
     //Localhost implicit login
@@ -161,13 +172,6 @@ export default function AuthProvider({ children }) {
     // Normal login
     console.log("Login")
     return fetchToken(email, password)
-      .then(jwt => {
-        const claims = assignToken(jwt)
-        if (isLocal() && claims.UserName) {
-          setLocalToken(jwt)
-        }
-        return jwt
-      })
   }
 
   /*** LOGOUT ***/
@@ -192,6 +196,23 @@ export default function AuthProvider({ children }) {
       })
   }
 
+  /*** IMPERSONATE ***/
+  const impersonate = email => {
+    console.log(email ? "Impersonate " + email : "Cancel impersonation")
+    return fancyFetchWithRetry(AppSettings.Urls.Impersonate(email))
+      .then(res => res ? res.text() : null)
+      .then(jwt => jwt ? jwt.replace(/['"]+/g, '') : null)
+      .then(jwt => {
+        console.log("GOT JWT", jwt)
+        const claims = assignToken(jwt)
+        console.log("Update claims", claims)
+        if (isLocal()) {
+          setLocalToken(jwt)
+        }
+        return jwt
+      })
+  }
+
   //#endregion Login/Logout with related helpers
 
   useEffect(() => {
@@ -212,14 +233,15 @@ export default function AuthProvider({ children }) {
         initialized: initialized,
         claims: claims,
         email: claims && claims.Customer && claims.Customer.UserName
-            ? claims.Customer.UserName
-            : claims && claims.Employee && claims.Employee.UserName
-              ? claims.Employee.UserName
-              : "",
+          ? claims.Customer.UserName
+          : claims && claims.Employee && claims.Employee.UserName
+            ? claims.Employee.UserName
+            : "",
         userType: claims ? claims.UserType : "",
         authenticate: authenticate,
         login: login,
         logout: logout,
+        impersonate: impersonate,
         fetch: fancyFetchWithRetry
       }}
     >
