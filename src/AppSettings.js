@@ -11,7 +11,8 @@ const AppSettings = {
     Guest: API("test/guest"),
     Customer: API("test/customer"),
     LinkedCustomer: API("test/linkedcustomer"),
-    Employee: API("test/employee")
+    Employee: API("test/employee"),
+    ImpersonateSearch: API("test/search?val=")
   }
 };
 
