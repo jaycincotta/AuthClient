@@ -182,21 +182,18 @@ function DiffDirectories {
 ### END FUNCTION DEFINITIONS ###
     
 function Compare-Content {
-    [CmdletBinding()]
     param (
       [parameter(HelpMessage="Stores the execution working directory.")]
       [string]$ExecutionDirectory=$PWD,
     
-      [parameter(Position=0,HelpMessage="Compare two directories recursively for differences.")]
-      [alias("c")]
-      [string[]]$Compare
+      [Parameter(Mandatory=$true, Position=0, HelpMessage="Left file/folder for compare")]
+      [string] $Left,
+
+      [Parameter(Mandatory=$true, Position=1, HelpMessage="Right file/folder for compare")]
+      [string] $Right
     )
 
-    $Left = $Compare[0]
-    $Right = $Compare[1]
-    if($Compare.length -ne 2) {
-        Print -x "Compare requires passing exactly 2 path parameters separated by comma, you passed $($Compare.length)." -f
-    } elseif ((-Not (Test-Path -Path $Left)) -and (-Not (Test-Path -Path $Right))) {
+    if ((-Not (Test-Path -Path $Left)) -and (-Not (Test-Path -Path $Right))) {
         Print -x "Neither $($Left) nor $($Right) are files or folders." -f
     } elseif (-Not (Test-Path -Path $Left)) {
         Print -x "$($Left) is neither a file or a folder." -f
