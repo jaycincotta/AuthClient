@@ -1,0 +1,13 @@
+# This allows checking of the list of shared files itself
+# A given repo might not integrate all the files that have
+# been made available for sharing, but including the file list
+# in the list of files we compare makes it easy to see which 
+# files have and haven't been shared in a given repo
+shared-files.txt
+
+# Common utility functions
+src/hooks/useLocalStorage.js
+
+# Shared logic for calling API enpoints with proper authentication
+src/context/AuthContext.js
+src/context/AuthProvider.js
